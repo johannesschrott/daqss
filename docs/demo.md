@@ -19,7 +19,7 @@ The demonstrations rely on two different data sets:
 * A [SQLite](https://www.sqlite.org/) database created from three files containing information about products on
   Amazon[^1][^2][^3] is used in the [second](demo2.ipynb) demonstration. The database is available for
   download [here](https://johannes.schrott.onl/daqss/demo/product_information.sqlite).
-  The original files[^1][^2][^3] are made available under the ODC Attribution License https://opendatacommons.org/licenses/by/1-0/index.html
+  The original files[^1][^2][^3] are made available under the [ODC Attribution License](https://opendatacommons.org/licenses/by/1-0/index.html).
 
 To generate the SQLite database, the Python package [`csv-to-sqlite`](https://pypi.org/project/csv-to-sqlite/)
 has been used in the following Python script:

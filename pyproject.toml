@@ -1,0 +1,19 @@
+[project]
+name = "daqss"
+version = "1.0.0"
+requires-python = ">=3.12"
+
+authors = [
+    { name = "Johannes Schrott", email = "johannes@schrott.onl" },
+]
+license = { file = "LICENSE" }
+readme = "README.md"
+
+
+dependencies = ["dill", "psycopg2", "python-dotenv", "pandas", "sqlalchemy"]
+
+[project.optional-dependencies]
+all = ["mkdocs", "mkdocs-autorefs", "mkdocs-material", "mkdocstrings[python]"]
+docs = ["mkdocs", "mkdocs-autorefs", "mkdocs-jupyter", "mkdocs-material", "mkdocstrings[python]", "pymdown-extensions"]
+
+

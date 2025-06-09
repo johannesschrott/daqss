@@ -10,10 +10,10 @@ license = { file = "LICENSE" }
 readme = "README.md"
 
 
-dependencies = ["dill", "psycopg2", "python-dotenv", "pandas", "sqlalchemy"]
+dependencies = ["dill", "jupyterlab", "psycopg2-binary", "python-dotenv", "pandas", "sqlalchemy"]
 
 [project.optional-dependencies]
-all = ["mkdocs", "mkdocs-autorefs", "mkdocs-material", "mkdocstrings[python]"]
+all = ["mkdocs", "mkdocs-autorefs", "mkdocs-jupyter", "mkdocs-material", "mkdocstrings[python]", "pymdown-extensions"]
 docs = ["mkdocs", "mkdocs-autorefs", "mkdocs-jupyter", "mkdocs-material", "mkdocstrings[python]", "pymdown-extensions"]
 
 

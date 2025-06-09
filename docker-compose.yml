@@ -1,0 +1,16 @@
+services:
+  daqss:
+    image: postgres:17
+    volumes:
+      - ./database_setup/create_tables.sql:/docker-entrypoint-initdb.d/1-create_tables.sql:Z
+      - ./database_setup/populate_levels_of_data_granularity.sql:/docker-entrypoint-initdb.d/2_populate_lodg.sql:Z
+      - postgres_data:/var/lib/postgresql/data/pgdata:Z
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=daqss
+      - POSTGRES_USER=${DAQSS_USERNAME}
+      - POSTGRES_PASSWORD=${DAQSS_PASSWORD}
+      - PGDATA=/var/lib/postgresql/data/pgdata
+volumes:
+  postgres_data:

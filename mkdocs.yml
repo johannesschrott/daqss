@@ -1,0 +1,61 @@
+site_name: "DaQSS"
+
+theme:
+  name: "material"
+  features:
+    - content.code.copy
+    - content.footnote.tooltips
+    - content.tooltips
+
+copyright: Copyright &copy; 2024 <a href="https://johannes.schrott.onl/">Johannes Schrott</a>
+
+plugins:
+  - autorefs
+  - mkdocs-jupyter
+  - mkdocstrings:
+      enable_inventory: true
+      enabled: !ENV [ ENABLE_MKDOCSTRINGS, true ]
+      default_handler: python
+      handlers:
+        python:
+          options:
+            docstring_style: google
+            show_root_heading: false
+            show_root_toc_entry: false
+            show_source: false
+          import:
+            - https://docs.python.org/3/objects.inv
+            - https://docs.sqlalchemy.org/en/20/objects.inv
+            - https://pandas.pydata.org/docs/objects.inv
+  - search
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - footnotes
+  - pymdownx.details
+  # - pymdownx.snippets: { auto-append: [ "includes/abbreviations.md" ] }
+  - pymdownx.superfences
+
+
+
+nav:
+  - Home: index.md
+  - Set up DaQSS: set-up.md
+  - Demonstration:
+      - Description: demo.md
+      - First notebook: demo1.ipynb
+      - Second notebook: demo2.ipynb
+      - Third notebook: demo3.ipynb
+  - Technical Documentation:
+      - Environment Variables:
+          - Description and Example: technical/environment_variables.md
+          - Code Reference: technical/ev_code_reference.md
+      - PostgreSQL Database: technical/postgresql_structure.md
+      - Python Package:
+          - Requirements and Dependencies: technical/dependencies.md
+          - Python API: technical/api.md
+
+watch:
+  - includes

@@ -35,7 +35,7 @@ with the Python package, which enables access to the database part of DaQSS dire
 
 In order to install the package,
 Python must be installed having a version of at least 3.12.
-Following this, the command `pip install https://johannes.schrott.onl/daqss/python.zip` must be
+Following this, the command `pip install git+https://github.com/johannesschrott/daqss.git` must be
 run to install the current version of the package together with
 its [dependencies](technical/dependencies.md) into the current Python environment.
 Before being able to use the installed Python pacakge, it must be ensured that

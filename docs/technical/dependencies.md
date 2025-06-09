@@ -18,4 +18,4 @@ automatically installed when installing DaQSS:
 
 For the generation of this documentation [MkDocs](https://mkdocs.org) is used.
 The dependencies required for the generation can be installed by running
-`pip install "daqss[docs] @ https://johannes.schrott.onl/daqss/python.zip"`.
+`pip install "daqss[docs] @ git+https://github.com/johannesschrott/daqss.git"`.

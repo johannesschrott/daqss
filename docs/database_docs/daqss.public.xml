@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?><database name="daqss" schema="public" type="PostgreSQL - 17.0 (Debian 17.0-1.pgdg120+1)">
+   <tables>
+      <table name="aggregation_constraint" remarks="Stores constraints for usage with CobADQ." schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="aggregation_constraint_name" nullable="false" remarks="The name of a constraint used for aggregation. This column is the primary key of the table &quot;aggregation constraint&quot;." size="2147483647" type="text" typeCode="12">
+            <child column="aggregation_constraint_name" foreignKey="aggregation_process_is_based_o_aggregation_constraint_name_fkey" implied="false" onDeleteCascade="false" schema="public" table="aggregation_process_is_based_on"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="aggregation_constraint_description" nullable="true" remarks="Describes the aggregation constraint in detail." size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="aggregation_constraint_formula" nullable="false" remarks="Contains the formula of the aggregation constraint encoded in CobADQs custom constraint language." size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="covers_level_of_data_granularity" nullable="false" remarks="References the level of data granularity which is covered by the aggregation constraint." size="2147483647" type="text" typeCode="12">
+            <parent column="level_name" foreignKey="aggregation_constraint_covers_level_of_data_granularity_fkey" implied="false" onDeleteCascade="false" schema="public" table="levels_of_data_granularity"/>
+         </column>
+         <primaryKey column="aggregation_constraint_name" sequenceNumberInPK="1"/>
+         <index name="aggregation_constraint_pk" unique="true">
+            <column ascending="true" name="aggregation_constraint_name"/>
+         </index>
+      </table>
+      <table name="aggregation_function" remarks="Stores aggregation functions for usage with CobADQ." schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="aggregation_function_name" nullable="false" remarks="The name of an aggregation function. This column is the primary key of the table &quot;aggregation function&quot;." size="2147483647" type="text" typeCode="12">
+            <child column="aggregation_function_name" foreignKey="aggregation_process_is_based_on_aggregation_function_name_fkey" implied="false" onDeleteCascade="false" schema="public" table="aggregation_process_is_based_on"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="aggregation_function_description" nullable="true" remarks="Describes the aggregation function in detail." size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="aggregation_function_expression" nullable="false" remarks="Contains the arithmetic expression of the aggregation function encoded in CobADQs custom constraint language." size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="source_level_of_data_granularity" nullable="false" remarks="References the level of data granularity of the data which will be aggregated." size="2147483647" type="text" typeCode="12">
+            <parent column="level_name" foreignKey="aggregation_function_source_level_of_data_granularity_fkey" implied="false" onDeleteCascade="false" schema="public" table="levels_of_data_granularity"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="target_level_of_data_granularity" nullable="false" remarks="References the level of data granularity the aggregation result refers to." size="2147483647" type="text" typeCode="12">
+            <parent column="level_name" foreignKey="aggregation_function_target_level_of_data_granularity_fkey" implied="false" onDeleteCascade="false" schema="public" table="levels_of_data_granularity"/>
+         </column>
+         <primaryKey column="aggregation_function_name" sequenceNumberInPK="1"/>
+         <index name="aggregation_function_pk" unique="true">
+            <column ascending="true" name="aggregation_function_name"/>
+         </index>
+      </table>
+      <table name="aggregation_process" remarks="Stores a reference to the values that are aggregated. The table has relationships to aggregation functions and constraints that aggregate this values." schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="aggregation_process_name" nullable="false" remarks="The name of an aggregation process. This column is the primary key of the table &quot;aggregation process&quot;." size="2147483647" type="text" typeCode="12">
+            <child column="aggregation_process_name" foreignKey="aggregation_process_computes_valu_aggregation_process_name_fkey" implied="false" onDeleteCascade="false" schema="public" table="aggregation_process_computes_value_for_dimension"/>
+            <child column="aggregation_process_name" foreignKey="aggregation_process_is_based_on_aggregation_process_name_fkey" implied="false" onDeleteCascade="false" schema="public" table="aggregation_process_is_based_on"/>
+            <child column="calculated_by_aggregation_process" foreignKey="dq_result_calculated_by_aggregation_process_fkey" implied="false" onDeleteCascade="false" schema="public" table="dq_result"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="aggregation_process_description" nullable="true" remarks="Describes the aggregation process in detail." size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="aggregation_query_for_values" nullable="true" remarks="A SQL query that returns the values which are aggregated by this aggregation process." size="2147483647" type="text" typeCode="12"/>
+         <primaryKey column="aggregation_process_name" sequenceNumberInPK="1"/>
+         <index name="aggregation_process_pk" unique="true">
+            <column ascending="true" name="aggregation_process_name"/>
+         </index>
+      </table>
+      <table name="aggregation_process_computes_value_for_dimension" remarks="Stores information on which aggregation process computes values for which dimension." schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="aggregation_process_name" nullable="false" remarks="The name of the aggregation process that computes a value for the provided dimension" size="2147483647" type="text" typeCode="12">
+            <parent column="aggregation_process_name" foreignKey="aggregation_process_computes_valu_aggregation_process_name_fkey" implied="false" onDeleteCascade="false" schema="public" table="aggregation_process"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="dimension_name" nullable="false" remarks="The name of a data quality dimension." size="2147483647" type="text" typeCode="12">
+            <parent column="dimension_name" foreignKey="aggregation_process_computes_value_for_dime_dimension_name_fkey" implied="false" onDeleteCascade="false" schema="public" table="dq_dimension"/>
+         </column>
+         <primaryKey column="aggregation_process_name" sequenceNumberInPK="1"/>
+         <primaryKey column="dimension_name" sequenceNumberInPK="2"/>
+         <index name="aggregation_process_computes_value_for_dimension_pk" unique="true">
+            <column ascending="true" name="aggregation_process_name"/>
+            <column ascending="true" name="dimension_name"/>
+         </index>
+      </table>
+      <table name="aggregation_process_is_based_on" remarks="Stores the references to the aggregation functions and constraints used by an aggregation process." schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="aggregation_process_name" nullable="false" remarks="References the aggregation process that is based on a pair of constraints and aggregation functions. Part of the primary key of the table &quot;aggregation process is based on&quot;." size="2147483647" type="text" typeCode="12">
+            <parent column="aggregation_process_name" foreignKey="aggregation_process_is_based_on_aggregation_process_name_fkey" implied="false" onDeleteCascade="false" schema="public" table="aggregation_process"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="aggregation_constraint_name" nullable="false" remarks="References an aggregation constraint that implies the usage of a certain aggregation function in the aggregation process. Part of the primary key of the table &quot;aggregation process is based on&quot;." size="2147483647" type="text" typeCode="12">
+            <parent column="aggregation_constraint_name" foreignKey="aggregation_process_is_based_o_aggregation_constraint_name_fkey" implied="false" onDeleteCascade="false" schema="public" table="aggregation_constraint"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="aggregation_function_name" nullable="false" remarks="References the aggregation function that is used in the aggregation process when the referenced constraint is fulfilled." size="2147483647" type="text" typeCode="12">
+            <parent column="aggregation_function_name" foreignKey="aggregation_process_is_based_on_aggregation_function_name_fkey" implied="false" onDeleteCascade="false" schema="public" table="aggregation_function"/>
+         </column>
+         <primaryKey column="aggregation_process_name" sequenceNumberInPK="1"/>
+         <primaryKey column="aggregation_constraint_name" sequenceNumberInPK="2"/>
+         <index name="aggregation_is_based_on_pk" unique="true">
+            <column ascending="true" name="aggregation_process_name"/>
+            <column ascending="true" name="aggregation_constraint_name"/>
+         </index>
+      </table>
+      <table name="data_element" remarks="Stores representations of data elements, i.e., whole databases, tables, columns, ..." schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="data_element_global_identifier" nullable="false" remarks="Globally identifies a data element. The global global_identifier consists either of a filepath or a database connection string. In case it is the global_identifier of a column, the columns global_identifier appended to the filepath or database connection string after a slash. In case, a value or a row are identified, the identifying values of a row are listed after a hashtag in a CSV like list." size="2147483647" type="text" typeCode="12">
+            <child column="parent_data_element_global_identifier" foreignKey="data_element_parent_data_element_global_identifier_fkey" implied="false" onDeleteCascade="true" schema="public" table="data_element"/>
+            <child column="computed_on_data_element_global_id" foreignKey="dq_result_computed_on_data_element_global_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="dq_result"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="data_element_local_identifier" nullable="true" remarks="Locally identifies a data element.E.g., the name of a database, a table, a column or the key of a row in a CSV-like structure." size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="is_of_level_of_data_granularity" nullable="false" remarks="The level of data granularity of the data element." size="2147483647" type="text" typeCode="12">
+            <parent column="level_name" foreignKey="data_element_is_of_level_of_data_granularity_fkey" implied="false" onDeleteCascade="false" schema="public" table="levels_of_data_granularity"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="parent_data_element_global_identifier" nullable="true" remarks="The global global_identifier of the more coarse-granular data element that contains this more fine-granular data element." size="2147483647" type="text" typeCode="12">
+            <parent column="data_element_global_identifier" foreignKey="data_element_parent_data_element_global_identifier_fkey" implied="false" onDeleteCascade="true" schema="public" table="data_element"/>
+         </column>
+         <primaryKey column="data_element_global_identifier" sequenceNumberInPK="1"/>
+         <index name="data_element_pkey" unique="true">
+            <column ascending="true" name="data_element_global_identifier"/>
+         </index>
+      </table>
+      <table name="dq_dimension" remarks="Contains the DQ dimensions that are available in DaQSS." schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="dimension_name" nullable="false" remarks="The name of a data quality dimension. This column is the primary key of the table &quot;dq_dimension&quot;." size="2147483647" type="text" typeCode="12">
+            <child column="dimension_name" foreignKey="aggregation_process_computes_value_for_dime_dimension_name_fkey" implied="false" onDeleteCascade="false" schema="public" table="aggregation_process_computes_value_for_dimension"/>
+            <child column="is_sub_dimension_of" foreignKey="dq_dimension_is_sub_dimension_of_fkey" implied="false" onDeleteCascade="false" schema="public" table="dq_dimension"/>
+            <child column="dimension_name" foreignKey="metric_computes_value_for_dimension_dimension_name_fkey" implied="false" onDeleteCascade="false" schema="public" table="metric_computes_value_for_dimension"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="dimension_description" nullable="true" remarks="Describes the the data quality dimension in more detail." size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="is_sub_dimension_of" nullable="true" remarks="A data quality dimension may be a sub-dimension of another data quality dimension." size="2147483647" type="text" typeCode="12">
+            <parent column="dimension_name" foreignKey="dq_dimension_is_sub_dimension_of_fkey" implied="false" onDeleteCascade="false" schema="public" table="dq_dimension"/>
+         </column>
+         <primaryKey column="dimension_name" sequenceNumberInPK="1"/>
+         <index name="dq_dimension_pk" unique="true">
+            <column ascending="true" name="dimension_name"/>
+         </index>
+      </table>
+      <table name="dq_metric" remarks="Contains data quality metrics that are designed for a specific level of data granularity and there serialized Python implementation." schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="metric_name" nullable="false" remarks="The name of a data quality metric. This column is the primary key of the table &quot;dq_metric&quot;." size="2147483647" type="text" typeCode="12">
+            <child column="calculated_by_dq_metric" foreignKey="dq_result_calculated_by_dq_metric_fkey" implied="false" onDeleteCascade="false" schema="public" table="dq_result"/>
+            <child column="metric_name" foreignKey="metric_computes_value_for_dimension_metric_name_fkey" implied="false" onDeleteCascade="false" schema="public" table="metric_computes_value_for_dimension"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="metric_description" nullable="true" remarks="Describes the behavior of a data quality metric, i.e., how it computes a measurement result." size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="python_implementation" nullable="true" remarks="Contains the Dill serialization of the Python function that implements this data quality metric" size="2147483647" type="bytea" typeCode="-2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="designed_for_level_of_data_granularity" nullable="false" remarks="References the level of data granularity which the data quality metric is targeted at." size="2147483647" type="text" typeCode="12">
+            <parent column="level_name" foreignKey="dq_metric_designed_for_level_of_data_granularity_fkey" implied="false" onDeleteCascade="false" schema="public" table="levels_of_data_granularity"/>
+         </column>
+         <primaryKey column="metric_name" sequenceNumberInPK="1"/>
+         <index name="dq_metric_pk" unique="true">
+            <column ascending="true" name="metric_name"/>
+         </index>
+      </table>
+      <table name="dq_result" remarks="Stores DQ results computed on a data element either by a DQ metric or an aggregation process." schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="6" id="0" name="creation_timestamp" nullable="false" remarks="The timestamp of the point in time when the data quality results has been computed.Part of the tables uniqueness constraint." size="29" type="timestamp" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="result_value" nullable="false" remarks="The data quality result value that has been computed." size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="computed_on_data_element_global_id" nullable="false" remarks="References the data element for which the data quality result value that has been computed.Part of the tables uniqueness constraint." size="2147483647" type="text" typeCode="12">
+            <parent column="data_element_global_identifier" foreignKey="dq_result_computed_on_data_element_global_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="data_element"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="calculated_by_dq_metric" nullable="true" remarks="References the data quality metric that computed the result value.Part of the tables uniqueness constraint." size="2147483647" type="text" typeCode="12">
+            <parent column="metric_name" foreignKey="dq_result_calculated_by_dq_metric_fkey" implied="false" onDeleteCascade="false" schema="public" table="dq_metric"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="calculated_by_aggregation_process" nullable="true" remarks="References the data quality aggregation process that computed the result value.Part of the tables uniqueness constraint." size="2147483647" type="text" typeCode="12">
+            <parent column="aggregation_process_name" foreignKey="dq_result_calculated_by_aggregation_process_fkey" implied="false" onDeleteCascade="false" schema="public" table="aggregation_process"/>
+         </column>
+         <index name="dq_result_creation_timestamp_computed_on_data_element_globa_key" unique="true">
+            <column ascending="true" name="creation_timestamp"/>
+            <column ascending="true" name="computed_on_data_element_global_id"/>
+            <column ascending="true" name="calculated_by_dq_metric"/>
+         </index>
+         <checkConstraint constraint="(((calculated_by_dq_metric IS NOT NULL) AND (calculated_by_aggregation_process IS NULL)) OR ((calculated_by_dq_metric IS NULL) AND (calculated_by_aggregation_process IS NOT NULL)))" name="calculated_by_dq_metric_xor_aggregation_process"/>
+      </table>
+      <table name="levels_of_data_granularity" remarks="Provides the levels of data granularity available in DaQSS." schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="level_name" nullable="false" remarks="The name of a level of data granularity. This column is the primary key of the table &quot;levels_of_data_granularity&quot;, since the individual levels can have the same value for the column ordering while being semantically different." size="2147483647" type="text" typeCode="12">
+            <child column="covers_level_of_data_granularity" foreignKey="aggregation_constraint_covers_level_of_data_granularity_fkey" implied="false" onDeleteCascade="false" schema="public" table="aggregation_constraint"/>
+            <child column="source_level_of_data_granularity" foreignKey="aggregation_function_source_level_of_data_granularity_fkey" implied="false" onDeleteCascade="false" schema="public" table="aggregation_function"/>
+            <child column="target_level_of_data_granularity" foreignKey="aggregation_function_target_level_of_data_granularity_fkey" implied="false" onDeleteCascade="false" schema="public" table="aggregation_function"/>
+            <child column="is_of_level_of_data_granularity" foreignKey="data_element_is_of_level_of_data_granularity_fkey" implied="false" onDeleteCascade="false" schema="public" table="data_element"/>
+            <child column="designed_for_level_of_data_granularity" foreignKey="dq_metric_designed_for_level_of_data_granularity_fkey" implied="false" onDeleteCascade="false" schema="public" table="dq_metric"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="ordering" nullable="false" remarks="Provides an integer value that declares the order of the levels of data granularity. Fine-granular levels are assigned smaller integer values, coarse-granular levels are assigned greater integer values." size="5" type="int2" typeCode="5"/>
+         <primaryKey column="level_name" sequenceNumberInPK="1"/>
+         <index name="levels_of_data_granularity_pk" unique="true">
+            <column ascending="true" name="level_name"/>
+         </index>
+      </table>
+      <table name="metric_computes_value_for_dimension" remarks="Stores information on which metric computes values for which dimension." schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="metric_name" nullable="false" remarks="The name of the metric that computes a value for the provided dimension" size="2147483647" type="text" typeCode="12">
+            <parent column="metric_name" foreignKey="metric_computes_value_for_dimension_metric_name_fkey" implied="false" onDeleteCascade="false" schema="public" table="dq_metric"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="dimension_name" nullable="false" remarks="The name of a data quality dimension." size="2147483647" type="text" typeCode="12">
+            <parent column="dimension_name" foreignKey="metric_computes_value_for_dimension_dimension_name_fkey" implied="false" onDeleteCascade="false" schema="public" table="dq_dimension"/>
+         </column>
+         <primaryKey column="metric_name" sequenceNumberInPK="1"/>
+         <primaryKey column="dimension_name" sequenceNumberInPK="2"/>
+         <index name="metric_computes_value_for_dimension_pk" unique="true">
+            <column ascending="true" name="metric_name"/>
+            <column ascending="true" name="dimension_name"/>
+         </index>
+      </table>
+   </tables>
+</database>

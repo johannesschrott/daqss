@@ -1,0 +1,11 @@
+levels_of_data_granularity
+aggregation_process
+data_element
+dq_dimension
+dq_metric
+aggregation_constraint
+aggregation_function
+aggregation_process_computes_value_for_dimension
+metric_computes_value_for_dimension
+aggregation_process_is_based_on
+dq_result
